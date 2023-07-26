@@ -10,9 +10,9 @@ data class TaskDto(
     val id: Id<TaskDto>? = null,
     val title: String,
     val description: String? = null,
-    val status: TaskStatus = TaskStatus.TODO,
-    val ownerId: Id<UserDto>,
-    val assigneeId: Id<UserDto> = ownerId,
+    val status: String = "TODO",
+    val ownerId: String,
+    val assigneeId: String = ownerId,
     val tags: List<String> = listOf(),
-    val category: CategoryDto? = null
+    val categoryId: String? = null
 )

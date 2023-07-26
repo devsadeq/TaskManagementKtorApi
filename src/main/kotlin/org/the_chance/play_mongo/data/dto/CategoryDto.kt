@@ -10,5 +10,5 @@ data class CategoryDto(
     val id: Id<CategoryDto>? = null,
     val name: String,
     val description: String? = null,
-    val tasksIds: List<Id<TaskDto>> = listOf(),
+    val tasksIds: List<String> = listOf(),
 )
