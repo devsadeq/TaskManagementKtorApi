@@ -1,4 +1,4 @@
-package org.the_chance.play_mongo.data.dto
+package org.the_chance.play_mongo.domain.entity
 
 enum class TaskStatus {
     TODO,
