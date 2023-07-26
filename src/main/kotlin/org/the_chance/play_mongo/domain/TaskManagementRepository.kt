@@ -29,7 +29,9 @@ interface TaskManagementRepository {
 
     fun getCategoryById(id: String): CategoryEntity
 
-    fun updateCategory(category: CategoryEntity): Boolean
+    fun getCategoryByName(name: String): CategoryEntity
+
+    fun updateCategory(id: String, category: CategoryEntity): Boolean
 
     fun deleteCategory(id: String): Boolean
 

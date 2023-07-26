@@ -1,6 +1,8 @@
 package org.the_chance.play_mongo.domain.entity
 
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class TaskEntity(
     val id: String,
     val title: String,

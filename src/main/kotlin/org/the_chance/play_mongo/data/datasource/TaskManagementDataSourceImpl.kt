@@ -1,5 +1,7 @@
 package org.the_chance.play_mongo.data.datasource
 
+import org.bson.types.ObjectId
+import org.koin.core.annotation.Single
 import org.litote.kmongo.*
 import org.the_chance.play_mongo.data.TaskManagementDatabase
 import org.the_chance.play_mongo.data.dto.CategoryDto
@@ -8,6 +10,7 @@ import org.the_chance.play_mongo.data.dto.UserDto
 import org.the_chance.play_mongo.domain.TaskManagementException
 import org.the_chance.play_mongo.repository.TaskManagementDataSource
 
+@Single
 class TaskManagementDataSourceImpl(db: TaskManagementDatabase) : TaskManagementDataSource {
 
     private val userCollection = db.database.getCollection<UserDto>("users")
@@ -46,8 +49,18 @@ class TaskManagementDataSourceImpl(db: TaskManagementDatabase) : TaskManagementD
         return taskCollection.deleteMany("{}").wasAcknowledged()
     }
 
+
     override fun createCategory(category: CategoryDto): Boolean {
-        return categoryCollection.insertOne(category).wasAcknowledged()
+        try {
+            getCategoryByName(category.name)
+            throw TaskManagementException.AlreadyExists
+        } catch (e: TaskManagementException.NotFound) {
+            return categoryCollection.insertOne(category).wasAcknowledged()
+        }
+    }
+
+    override fun getCategoryByName(name: String): CategoryDto {
+        return categoryCollection.findOne(CategoryDto::name eq name) ?: throw TaskManagementException.NotFound
     }
 
     override fun getCategories(): List<CategoryDto> {
@@ -55,15 +68,22 @@ class TaskManagementDataSourceImpl(db: TaskManagementDatabase) : TaskManagementD
     }
 
     override fun getCategoryById(id: String): CategoryDto {
-        return categoryCollection.findOneById(id) ?: throw TaskManagementException.NotFound
+        return categoryCollection.findOneById(ObjectId(id)) ?: throw TaskManagementException.NotFound
     }
 
-    override fun updateCategory(category: CategoryDto): Boolean {
-        return categoryCollection.updateOneById(category.id!!, category).wasAcknowledged()
+    override fun updateCategory(id: String, category: CategoryDto): Boolean {
+        try {
+            getCategoryById(id)
+            return categoryCollection.updateOneById(ObjectId(id), category).wasAcknowledged()
+        } catch (e: TaskManagementException.NotFound) {
+            throw e
+        }
     }
 
     override fun deleteCategory(id: String): Boolean {
-        return categoryCollection.deleteOneById(id).wasAcknowledged()
+        val result = categoryCollection.deleteOneById(ObjectId(id))
+        if (result.deletedCount == 0L) throw TaskManagementException.NotFound
+        return result.wasAcknowledged()
     }
 
     override fun deleteAllCategories(): Boolean {
@@ -79,7 +99,7 @@ class TaskManagementDataSourceImpl(db: TaskManagementDatabase) : TaskManagementD
     }
 
     override fun getUserById(id: String): UserDto {
-        return userCollection.findOneById(id) ?: throw TaskManagementException.NotFound
+        return userCollection.findOneById(ObjectId(id)) ?: throw TaskManagementException.NotFound
     }
 
     override fun updateUser(user: UserDto): UserDto {
@@ -87,7 +107,7 @@ class TaskManagementDataSourceImpl(db: TaskManagementDatabase) : TaskManagementD
     }
 
     override fun deleteUser(id: String): Boolean {
-        return userCollection.deleteOneById(id).wasAcknowledged()
+        return userCollection.deleteOneById(ObjectId(id)).wasAcknowledged()
     }
 
     override fun deleteAllUsers(): Boolean {

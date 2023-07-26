@@ -57,8 +57,12 @@ class TaskManagementRepositoryImpl(
         return taskManagementDataSource.getCategoryById(id).toEntity()
     }
 
-    override fun updateCategory(category: CategoryEntity): Boolean {
-        return taskManagementDataSource.updateCategory(category.toDto())
+    override fun getCategoryByName(name: String): CategoryEntity {
+        return taskManagementDataSource.getCategoryByName(name).toEntity()
+    }
+
+    override fun updateCategory(id: String, category: CategoryEntity): Boolean {
+        return taskManagementDataSource.updateCategory(id, category.toDto())
     }
 
     override fun deleteCategory(id: String): Boolean {

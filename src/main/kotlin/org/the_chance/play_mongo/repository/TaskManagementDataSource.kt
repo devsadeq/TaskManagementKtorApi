@@ -29,7 +29,9 @@ interface TaskManagementDataSource {
 
     fun getCategoryById(id: String): CategoryDto
 
-    fun updateCategory(category: CategoryDto): Boolean
+    fun getCategoryByName(name: String): CategoryDto
+
+    fun updateCategory(id: String, category: CategoryDto): Boolean
 
     fun deleteCategory(id: String): Boolean
 
