@@ -6,13 +6,9 @@ import org.the_chance.play_mongo.domain.entity.UserEntity
 
 interface TaskManagementRepository {
 
-    fun getTasks(): List<TaskEntity>
+    fun getTasks(filter: String): List<TaskEntity>
 
     fun getTaskById(id: String): TaskEntity
-
-    fun getTaskByStatus(status: String): List<TaskEntity>
-
-    fun getTasksByCategory(categoryId: String): List<TaskEntity>
 
     fun createTask(task: TaskEntity): Boolean
 

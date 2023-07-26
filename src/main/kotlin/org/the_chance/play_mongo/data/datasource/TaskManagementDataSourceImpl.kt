@@ -17,20 +17,13 @@ class TaskManagementDataSourceImpl(db: TaskManagementDatabase) : TaskManagementD
     private val taskCollection = db.database.getCollection<TaskDto>("tasks")
     private val categoryCollection = db.database.getCollection<CategoryDto>("categories")
 
-    override fun getTasks(): List<TaskDto> {
-        return taskCollection.find().toList()
+
+    override fun getTasks(filter: String): List<TaskDto> {
+        return taskCollection.find(filter).toList()
     }
 
     override fun getTaskById(id: String): TaskDto {
         return taskCollection.findOneById(id) ?: throw TaskManagementException.NotFound
-    }
-
-    override fun getTaskByStatus(status: String): List<TaskDto> {
-        return taskCollection.find(TaskDto::status eq status).toList()
-    }
-
-    override fun getTasksByCategory(categoryId: String): List<TaskDto> {
-        return taskCollection.find(TaskDto::categoryId eq categoryId).toList()
     }
 
     override fun createTask(task: TaskDto): Boolean {

@@ -24,7 +24,9 @@ fun Route.taskRoutes() {
 
         get {
             wrapCall(call) {
-                call.respond(getTasks())
+                val byCategory = call.request.queryParameters["byCategory"]
+                val byStatus = call.request.queryParameters["byStatus"]
+                call.respond(getTasks(byCategory, byStatus))
             }
         }
 

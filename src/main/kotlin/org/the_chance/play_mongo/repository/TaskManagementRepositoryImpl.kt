@@ -13,20 +13,12 @@ class TaskManagementRepositoryImpl(
     private val taskManagementDataSource: TaskManagementDataSource
 ) : TaskManagementRepository {
 
-    override fun getTasks(): List<TaskEntity> {
-        return taskManagementDataSource.getTasks().toEntity()
+    override fun getTasks(filter: String): List<TaskEntity> {
+        return taskManagementDataSource.getTasks(filter).toEntity()
     }
 
     override fun getTaskById(id: String): TaskEntity {
         return taskManagementDataSource.getTaskById(id).toEntity()
-    }
-
-    override fun getTaskByStatus(status: String): List<TaskEntity> {
-        return taskManagementDataSource.getTaskByStatus(status).toEntity()
-    }
-
-    override fun getTasksByCategory(categoryId: String): List<TaskEntity> {
-        return taskManagementDataSource.getTasksByCategory(categoryId).toEntity()
     }
 
     override fun createTask(task: TaskEntity): Boolean {

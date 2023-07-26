@@ -6,13 +6,9 @@ import org.the_chance.play_mongo.data.dto.UserDto
 
 interface TaskManagementDataSource {
 
-    fun getTasks(): List<TaskDto>
+    fun getTasks(filter: String): List<TaskDto>
 
     fun getTaskById(id: String): TaskDto
-
-    fun getTaskByStatus(status: String): List<TaskDto>
-
-    fun getTasksByCategory(categoryId: String): List<TaskDto>
 
     fun createTask(task: TaskDto): Boolean
 
