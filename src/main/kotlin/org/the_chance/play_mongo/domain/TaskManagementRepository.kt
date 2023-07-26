@@ -16,7 +16,7 @@ interface TaskManagementRepository {
 
     fun createTask(task: TaskEntity): Boolean
 
-    fun updateTask(task: TaskEntity): Boolean
+    fun updateTask(id: String, task: TaskEntity): Boolean
 
     fun deleteTask(id: String): Boolean
 
@@ -44,7 +44,7 @@ interface TaskManagementRepository {
 
     fun getUserById(id: String): UserEntity
 
-    fun updateUser(user: UserEntity): UserEntity
+    fun updateUser(id: String, user: UserEntity): UserEntity
 
     fun deleteUser(id: String): Boolean
 

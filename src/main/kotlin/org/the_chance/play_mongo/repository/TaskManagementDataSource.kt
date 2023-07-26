@@ -16,7 +16,7 @@ interface TaskManagementDataSource {
 
     fun createTask(task: TaskDto): Boolean
 
-    fun updateTask(task: TaskDto): Boolean
+    fun updateTask(id: String, task: TaskDto): Boolean
 
     fun deleteTask(id: String): Boolean
 
@@ -44,7 +44,7 @@ interface TaskManagementDataSource {
 
     fun getUserById(id: String): UserDto
 
-    fun updateUser(user: UserDto): UserDto
+    fun updateUser(id: String, user: UserDto): UserDto
 
     fun deleteUser(id: String): Boolean
 

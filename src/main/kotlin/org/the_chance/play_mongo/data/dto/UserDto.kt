@@ -11,5 +11,5 @@ data class UserDto(
     val name: String,
     val email: String,
     val password: String,
-    val tasksIds: List<String>
+    val tasksIds: List<String> = emptyList()
 )

@@ -33,8 +33,8 @@ class TaskManagementRepositoryImpl(
         return taskManagementDataSource.createTask(task.toDto())
     }
 
-    override fun updateTask(task: TaskEntity): Boolean {
-        return taskManagementDataSource.updateTask(task.toDto())
+    override fun updateTask(id: String, task: TaskEntity): Boolean {
+        return taskManagementDataSource.updateTask(id, task.toDto())
     }
 
     override fun deleteTask(id: String): Boolean {
@@ -85,8 +85,8 @@ class TaskManagementRepositoryImpl(
         return taskManagementDataSource.getUserById(id).toEntity()
     }
 
-    override fun updateUser(user: UserEntity): UserEntity {
-        return taskManagementDataSource.updateUser(user.toDto()).toEntity()
+    override fun updateUser(id: String, user: UserEntity): UserEntity {
+        return taskManagementDataSource.updateUser(id, user.toDto()).toEntity()
     }
 
     override fun deleteUser(id: String): Boolean {

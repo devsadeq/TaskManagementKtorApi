@@ -37,8 +37,8 @@ class TaskManagementDataSourceImpl(db: TaskManagementDatabase) : TaskManagementD
         return taskCollection.insertOne(task).wasAcknowledged()
     }
 
-    override fun updateTask(task: TaskDto): Boolean {
-        return taskCollection.updateOneById(task.id!!, task).wasAcknowledged()
+    override fun updateTask(id: String, task: TaskDto): Boolean {
+        return taskCollection.updateOneById(id, task).wasAcknowledged()
     }
 
     override fun deleteTask(id: String): Boolean {
@@ -90,6 +90,7 @@ class TaskManagementDataSourceImpl(db: TaskManagementDatabase) : TaskManagementD
         return categoryCollection.deleteMany().wasAcknowledged()
     }
 
+
     override fun createUser(user: UserDto): UserDto {
         return userCollection.insertOne(user).let { user }
     }
@@ -102,8 +103,13 @@ class TaskManagementDataSourceImpl(db: TaskManagementDatabase) : TaskManagementD
         return userCollection.findOneById(ObjectId(id)) ?: throw TaskManagementException.NotFound
     }
 
-    override fun updateUser(user: UserDto): UserDto {
-        return userCollection.updateOneById(user.id!!, user).let { user }
+    override fun updateUser(id: String, user: UserDto): UserDto {
+        try {
+            getUserById(id)
+            return userCollection.updateOneById(ObjectId(id), user).let { user }
+        } catch (e: TaskManagementException.NotFound) {
+            throw e
+        }
     }
 
     override fun deleteUser(id: String): Boolean {
